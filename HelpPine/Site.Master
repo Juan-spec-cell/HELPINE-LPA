@@ -1,0 +1,243 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="HelpPine.SiteMaster" %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="/Content/img/Logo.jpg" />
+    <title><%: Page.Title %> | LPA HelpDesk</title>
+    <!-- Global -->
+    <link href="/Content/css/app.css" rel="stylesheet" />
+    <!-- Alerts -->
+    <link href="/Content/css/iziToasst.min.css" rel="stylesheet" />
+    <link href="~/Content/css/Mensajeria.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/css/Galeria.css" rel="stylesheet" type="text/css" />
+    <!-- Page Style -->
+    <asp:ContentPlaceHolder ID="CSS" runat="server"></asp:ContentPlaceHolder>
+    <!-- Keyboard -->
+    <link href="/Content/css/jquery-ui.min.css" rel="stylesheet" />
+    <link href="/Content/css/keyboard.css" rel="stylesheet" />
+    <!-- Custom styles -->
+    <link href="/Content/css/Site.css" rel="stylesheet" />
+    <link href="/Content/css/all.min.css" rel="stylesheet" />
+</head>
+
+<body style="overflow: auto;">
+    <form runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div class="wrapper">
+            <nav id="sidebar" class="sidebar">
+                <div class="sidebar-content js-simplebar">
+                    <a class="sidebar-brand text-center" href="/" style="background-color: var(--bs-green);">
+                        <img class="align-middle" width="80" src="/Content/img/Logo2.png" />
+                    </a>
+                    <ul class="sidebar-nav" style="background-color: var(--bs-green);">
+                        <li class="sidebar-item <%= url.Contains("default") ? "active" : "" %>">
+                            <a class="sidebar-link text-white" href="/" style="background-color: var(--bs-green);">
+                                <h4 class="align-middle text-white">
+                                    <strong runat="server" id="pruebas"></strong>
+                                </h4>
+                                <i class="align-middle" data-feather="home"></i>
+                                <span class="align-middle">Inicio</span>
+                            </a>
+                        </li>
+
+                        <%-- Sección Gestión (General) --%>
+                        <% if (formularios.Where(f => f.FormId == 14).FirstOrDefault() != null) { %>
+                        <li class="sidebar-header text-white" style="background-color: var(--bs-green);">Gestión</li>
+                        <li class="sidebar-item <%= url.Contains("Vistas/Gestion/Definiciones/General") ? "active" : "" %>">
+                            <a data-target="#ui1" data-toggle="collapse" class="sidebar-link text-white <%= url.Contains("Vistas/Gestion/Definiciones") ? "" : "collapsed" %>" style="background-color: var(--bs-green);">
+                                <i class="align-middle" data-feather="settings"></i>
+                                <span class="align-middle">General</span>
+                            </a>
+                            <ul id="ui1" class="sidebar-dropdown list-unstyled collapse <%= url.Contains("Vistas/Gestion/Definiciones/General") ? "show" : "" %>" data-parent="#sidebar" style="background-color: var(--bs-green);">
+                                <% if (formularios.Where(f => f.FormId == 4).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/General/Usuarios" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/General/Usuarios.aspx" Style="background-color: var(--bs-green);">
+                                        Usuarios
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                                <% if (formularios.Where(f => f.FormId == 5).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/General/Perfiles" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/General/Perfiles.aspx" Style="background-color: var(--bs-green);">
+                                        Perfiles
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                                <% if (formularios.Where(f => f.FormId == 6).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/General/Formularios" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/General/Formularios.aspx" Style="background-color: var(--bs-green);">
+                                        Formularios
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                                <% if (formularios.Where(f => f.FormId == 7).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/General/Departamentos" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/General/Departamentos.aspx" Style="background-color: var(--bs-green);">
+                                        Departamentos
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </li>
+                        <% } %>
+
+                        <%-- Módulo Tickets --%>
+                        <% if (formularios.Where(f => f.FormId == 16).FirstOrDefault() != null) { %>
+                        <li class="sidebar-item <%= url.Contains("Vistas/Gestion/Definiciones/Tickets") ? "active" : "" %>">
+                            <a data-target="#ui3" data-toggle="collapse" class="sidebar-link text-white <%= url.Contains("Vistas/Gestion/Definiciones/Tickets") ? "" : "collapsed" %>" style="background-color: var(--bs-green);">
+                                <i class="fa-solid fa-people-group"></i>
+                                <span class="align-middle">Tickets</span>
+                            </a>
+                            <ul id="ui3" class="sidebar-dropdown list-unstyled collapse <%= url.Contains("Vistas/Gestion/Definiciones/Tickets") ? "show" : "" %>" data-parent="#sidebar" style="background-color: var(--bs-green);">
+                                <% if (formularios.Where(f => f.FormId == 8).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/Tickets/GenerarTickets" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/Tickets/GenerarTickets.aspx" Style="background-color: var(--bs-green);">
+                                        Generar Tickets
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                                <% if (formularios.Where(f => f.FormId == 10).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/Tickets/GestionarTickets" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/Tickets/GestionarTickets.aspx" Style="background-color: var(--bs-green);">
+                                        Gestionar Tickets
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                                <% if (formularios.Where(f => f.FormId == 9).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/Tickets/TicketsAbiertos" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/Tickets/TicketsAbiertos.aspx" Style="background-color: var(--bs-green);">
+                                        Tickets Abiertos
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </li>
+                        <% } %>
+
+                        <%-- Módulo Reportes --%>
+                        <% if (formularios.Where(f => f.FormId == 15).FirstOrDefault() != null) { %>
+                        <li class="sidebar-item <%= url.Contains("Vistas/Gestion/Definiciones/Reportes") ? "active" : "" %>">
+                            <a data-target="#ui2" data-toggle="collapse" class="sidebar-link text-white <%= url.Contains("Vistas/Gestion/Definiciones/Reportes") ? "" : "collapsed" %>" style="background-color: var(--bs-green);">
+                                <i class="fa-solid fa-screwdriver-wrench"></i>
+                                <span class="align-middle">Reportes</span>
+                            </a>
+                            <ul id="ui2" class="sidebar-dropdown list-unstyled collapse <%= url.Contains("Vistas/Gestion/Definiciones/Reportes") ? "show" : "" %>" data-parent="#sidebar" style="background-color: var(--bs-green);">
+                                <% if (formularios.Where(f => f.FormId == 12).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/Reportes/ReportesPorDepartamento" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/Reportes/ErroresPorDepartamento.aspx" Style="background-color: var(--bs-green);">
+                                        Errores Por Departamentos
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                                <% if (formularios.Where(f => f.FormId == 11).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/Reportes/ReportesPorFecha" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/Reportes/ErroresPorFecha.aspx" Style="background-color: var(--bs-green);">
+                                        Errores Por Fecha
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                                <% if (formularios.Where(f => f.FormId == 18).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/Reportes/TopErroresComunes" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/Reportes/TopErroresComunes.aspx" Style="background-color: var(--bs-green);">
+                                        Top Errores Comunes
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                                <% if (formularios.Where(f => f.FormId == 17).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/Tickets/TicketsCerrados" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/Tickets/TicketsCerrados.aspx" Style="background-color: var(--bs-green);">
+                                        Tickets Cerrados
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                                <% if (formularios.Where(f => f.FormId == 13).FirstOrDefault() != null) { %>
+                                <li class="sidebar-item <%= url == "/Vistas/Gestion/Definiciones/Reportes/Galeria" ? "active" : "" %>">
+                                    <asp:HyperLink CssClass="sidebar-link text-white" runat="server" NavigateUrl="~/Vistas/Gestion/Definiciones/Reportes/Galeria.aspx" Style="background-color: var(--bs-green);">
+                                        Galeria
+                                    </asp:HyperLink>
+                                </li>
+                                <% } %>
+                            </ul>
+                        </li>
+                        <% } %>
+
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Contenido principal -->
+            <div class="main">
+                <nav class="navbar navbar-expand navbar-light navbar-bg">
+                    <a class="sidebar-toggle d-flex" id="btnCollapse">
+                        <i class="hamburger align-self-center"></i>
+                    </a>
+                    <div class="navbar-collapse collapse">
+                        <ul class="navbar-nav navbar-align">
+                            <li class="nav-item dropdown">
+                                <a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
+                                    <i class="align-middle" data-feather="settings"></i>
+                                </a>
+                                <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
+                                    <span runat="server" id="lbUser" class="text-dark"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <asp:LinkButton OnClick="Salir_Click" ID="Salir" runat="server" CssClass="dropdown-item">
+                                        Cerrar Sesión
+                                    </asp:LinkButton>
+                                    <asp:LinkButton OnClick="Keyboard_Click" Enabled="false" Visible="false" ID="Keyboard" runat="server" CssClass="dropdown-item">
+                                        Usar teclado en pantalla
+                                    </asp:LinkButton>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <main class="content" style="background-color: #729d86;">
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                            </asp:ContentPlaceHolder>
+                        </div>
+                    </div>
+                </main>
+
+                <footer class="footer">
+                    <div class="container-fluid">
+                        <div class="row text-muted">
+                            <div class="col text-center">
+                                <p class="mb-0">
+                                    <strong class="text-muted">&copy;<%: DateTime.Now.Year %> | Los Pinos Apparel V1.1</strong>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </form>
+</body>
+<!-- Global -->
+<script src="/Content/js/app.js"></script>
+<script src="/Scripts/jquery-3.6.0.min.js"></script>
+<!-- Alerts -->
+<script src="/Content/js/iziToast.min.js"></script>
+<script>
+    let modified = false;
+    let x = '<%= Session["Keyboard"] %>';
+</script>
+<asp:ContentPlaceHolder ID="JS" runat="server"></asp:ContentPlaceHolder>
+<!-- Global Config -->
+<script src="/Scripts/Global/config.js"></script>
+<asp:ContentPlaceHolder ID="JS2" runat="server"></asp:ContentPlaceHolder>
+<!-- Keyboard -->
+<script src="/Scripts/jquery-ui-custom.min.js"></script>
+<script src="/Scripts/jquery.keyboard.js"></script>
+<script src="/Scripts/Global/virtualKeyboard.js"></script>
+</html>
+
+

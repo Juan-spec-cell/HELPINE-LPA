@@ -1,0 +1,6 @@
+﻿body {
+}
+
+.table-striped tr.exported.odd {
+    background-color: lightgreen !important;
+}

@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HelpPine.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ConexionHD" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=10.10.20.17;Initial Catalog=Prueba V1;User ID=sa;Password=qwerty123.</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

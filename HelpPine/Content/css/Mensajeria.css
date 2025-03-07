@@ -1,0 +1,69 @@
+﻿.mensaje-tecnico {
+    text-align: left;
+    background-color: #0069cc;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    max-width: 80%;
+    position: relative;
+    clear: both;
+    float: left;
+    color: white; /* Texto blanco */
+}
+
+.mensaje-reportador {
+    text-align: right;
+    background-color: #0069cc;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    max-width: 60%;
+    position: relative;
+    clear: both;
+    float: right;
+    color: white; /* Texto blanco */
+}
+
+.mensaje {
+    display: inline-block;
+    word-wrap: break-word;
+    color: white; /* Aseguramos que todo el texto sea blanco */
+}
+
+    .mensaje strong {
+        display: block;
+        color: white;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .mensaje em {
+        display: block;
+        font-size: 0.8em;
+        color: white; /* También el texto en cursiva será blanco */
+        margin-top: 5px;
+    }
+
+.card-title {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    padding: 50px;
+}
+
+.form-control {
+    margin-top: 20px;
+    max-width: 80%; /* Ajusta este valor según tus necesidades */
+}
+
+.btn {
+    margin-top: 10px;
+}
+
+.mensajes-container {
+    max-height: 350px; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto;
+    padding-right: 15px; /* Para evitar que el contenido se superponga con la barra de desplazamiento */
+}
