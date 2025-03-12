@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Juan Garcia\\Desktop\\HelpDesk-LPA\\HelpDesk_LPA\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{85C7434B-8CBC-45D5-98E5-A04F74506F81}|HelpPine\\HelpPine.csproj|c:\\users\\juan garcia\\desktop\\helpdesk-lpa\\helpdesk_lpa\\helppine\\vistas\\gestion\\definiciones\\reportes\\toperrorescomunes.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{85C7434B-8CBC-45D5-98E5-A04F74506F81}|HelpPine\\HelpPine.csproj|solutionrelative:helppine\\vistas\\gestion\\definiciones\\reportes\\toperrorescomunes.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+      "AbsoluteMoniker": "D:0:0:{85C7434B-8CBC-45D5-98E5-A04F74506F81}|HelpPine\\HelpPine.csproj|c:\\users\\juan garcia\\desktop\\helpdesk-lpa\\helpdesk_lpa\\helppine\\clases\\emailhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85C7434B-8CBC-45D5-98E5-A04F74506F81}|HelpPine\\HelpPine.csproj|solutionrelative:helppine\\clases\\emailhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85C7434B-8CBC-45D5-98E5-A04F74506F81}|HelpPine\\HelpPine.csproj|c:\\users\\juan garcia\\desktop\\helpdesk-lpa\\helpdesk_lpa\\helppine\\vistas\\gestion\\definiciones\\tickets\\ticketsabiertos.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{85C7434B-8CBC-45D5-98E5-A04F74506F81}|HelpPine\\HelpPine.csproj|solutionrelative:helppine\\vistas\\gestion\\definiciones\\tickets\\ticketsabiertos.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{85C7434B-8CBC-45D5-98E5-A04F74506F81}|HelpPine\\HelpPine.csproj|c:\\users\\juan garcia\\desktop\\helpdesk-lpa\\helpdesk_lpa\\helppine\\vistas\\gestion\\definiciones\\tickets\\ticketsabiertos.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{85C7434B-8CBC-45D5-98E5-A04F74506F81}|HelpPine\\HelpPine.csproj|solutionrelative:helppine\\vistas\\gestion\\definiciones\\tickets\\ticketsabiertos.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,14 +31,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "TopErroresComunes.aspx",
-              "DocumentMoniker": "C:\\Users\\Juan Garcia\\Desktop\\HelpDesk-LPA\\HelpDesk_LPA\\HelpPine\\Vistas\\Gestion\\Definiciones\\Reportes\\TopErroresComunes.aspx",
-              "RelativeDocumentMoniker": "HelpPine\\Vistas\\Gestion\\Definiciones\\Reportes\\TopErroresComunes.aspx",
-              "ToolTip": "C:\\Users\\Juan Garcia\\Desktop\\HelpDesk-LPA\\HelpDesk_LPA\\HelpPine\\Vistas\\Gestion\\Definiciones\\Reportes\\TopErroresComunes.aspx",
-              "RelativeToolTip": "HelpPine\\Vistas\\Gestion\\Definiciones\\Reportes\\TopErroresComunes.aspx",
+              "Title": "EmailHelper.cs",
+              "DocumentMoniker": "C:\\Users\\Juan Garcia\\Desktop\\HelpDesk-LPA\\HelpDesk_LPA\\HelpPine\\Clases\\EmailHelper.cs",
+              "RelativeDocumentMoniker": "HelpPine\\Clases\\EmailHelper.cs",
+              "ToolTip": "C:\\Users\\Juan Garcia\\Desktop\\HelpDesk-LPA\\HelpDesk_LPA\\HelpPine\\Clases\\EmailHelper.cs",
+              "RelativeToolTip": "HelpPine\\Clases\\EmailHelper.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAcwCkAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T15:27:57.664Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TicketsAbiertos.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\Juan Garcia\\Desktop\\HelpDesk-LPA\\HelpDesk_LPA\\HelpPine\\Vistas\\Gestion\\Definiciones\\Tickets\\TicketsAbiertos.aspx.cs",
+              "RelativeDocumentMoniker": "HelpPine\\Vistas\\Gestion\\Definiciones\\Tickets\\TicketsAbiertos.aspx.cs",
+              "ToolTip": "C:\\Users\\Juan Garcia\\Desktop\\HelpDesk-LPA\\HelpDesk_LPA\\HelpPine\\Vistas\\Gestion\\Definiciones\\Tickets\\TicketsAbiertos.aspx.cs",
+              "RelativeToolTip": "HelpPine\\Vistas\\Gestion\\Definiciones\\Tickets\\TicketsAbiertos.aspx.cs",
+              "ViewState": "AgIAAHIAAAAAAAAAAAAQwJsAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-12T15:23:04.302Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TicketsAbiertos.aspx",
+              "DocumentMoniker": "C:\\Users\\Juan Garcia\\Desktop\\HelpDesk-LPA\\HelpDesk_LPA\\HelpPine\\Vistas\\Gestion\\Definiciones\\Tickets\\TicketsAbiertos.aspx",
+              "RelativeDocumentMoniker": "HelpPine\\Vistas\\Gestion\\Definiciones\\Tickets\\TicketsAbiertos.aspx",
+              "ToolTip": "C:\\Users\\Juan Garcia\\Desktop\\HelpDesk-LPA\\HelpDesk_LPA\\HelpPine\\Vistas\\Gestion\\Definiciones\\Tickets\\TicketsAbiertos.aspx",
+              "RelativeToolTip": "HelpPine\\Vistas\\Gestion\\Definiciones\\Tickets\\TicketsAbiertos.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2025-03-07T15:20:59.537Z",
+              "WhenOpened": "2025-03-12T14:43:29.711Z",
               "EditorCaption": ""
             }
           ]

@@ -35,7 +35,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
         {
             try
             {
-                DataSet ds = util.ObtenerDS("SELECT * FROM V_Perfiles", "T");
+                DataSet ds = util.ObtenerDS("SELECT * FROM V_Perfiles2", "T");
                 ViewState["Table"] = ds.Tables[0];
 
                 if (ds.Tables[0].Rows.Count > 0)

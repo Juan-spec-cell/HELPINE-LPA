@@ -30,7 +30,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
         {
             using (SqlConnection conn = new SqlConnection(ConexionBD.sConexion))
             {
-                SqlCommand cmd = new SqlCommand("SELECT idTicket, titulo, descripcion, clasificacion, prioridad, estado, creadoPor, tecnicoAsignado, fechaCierra, departamento FROM V_GetTickets WHERE estado != 'Cerrado'", conn);
+                SqlCommand cmd = new SqlCommand("SELECT idTicket, titulo, descripcion, clasificacion, prioridad, estado, creadoPor, tecnicoAsignado, idTecnicoAsignado, fechaCierra, departamento FROM V_GetTickets WHERE estado != 'Cerrado'", conn);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -38,45 +38,46 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
                 RepeaterTickets.DataBind();
             }
         }
-
         protected void RepeaterTickets_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
-                // Enlazar técnicos con el idUsuario obtenido a partir de la tabla UsuariosPorPerfil
                 DropDownList ddlTecnicos = (DropDownList)e.Item.FindControl("ddlTecnicos");
-                if (ddlTecnicos != null)
+
+                if (ddlTecnicos != null && ddlTecnicos.Items.Count == 0)
                 {
                     DataTable dtTecnicos = ObtenerTecnicos();
                     ddlTecnicos.DataSource = dtTecnicos;
                     ddlTecnicos.DataTextField = "descripcion";
-                    ddlTecnicos.DataValueField = "idUsuario"; // Ahora se utiliza el idUsuario
+                    ddlTecnicos.DataValueField = "idUsuario";
                     ddlTecnicos.DataBind();
 
-                    string tecnicoAsignado = DataBinder.Eval(e.Item.DataItem, "tecnicoAsignado").ToString();
-                    if (!string.IsNullOrEmpty(tecnicoAsignado))
-                    {
-                        ddlTecnicos.SelectedValue = tecnicoAsignado;
-                    }
+                    // Agregar el ítem "Sin asignar" al DropDownList
+                    ddlTecnicos.Items.Insert(0, new ListItem("Sin asignar", ""));
                 }
 
-                // Actualizar el estado del ticket según la base de datos
-                DropDownList ddlEstado = (DropDownList)e.Item.FindControl("ddlEstado");
-                if (ddlEstado != null)
+                string idTecnico = DataBinder.Eval(e.Item.DataItem, "idTecnicoAsignado").ToString();
+                if (!string.IsNullOrEmpty(idTecnico) && ddlTecnicos.Items.FindByValue(idTecnico) != null)
                 {
-                    string estadoTicket = DataBinder.Eval(e.Item.DataItem, "estado").ToString();
-                    if (ddlEstado.Items.FindByValue(estadoTicket) != null)
-                    {
-                        ddlEstado.SelectedValue = estadoTicket;
-                    }
+                    ddlTecnicos.SelectedValue = idTecnico;
+                }
+                else
+                {
+                    ddlTecnicos.SelectedValue = "";
                 }
 
-                // Deshabilitar el botón de guardar si el estado es distinto de "Abierto"
+                DropDownList ddlEstado = (DropDownList)e.Item.FindControl("ddlEstado");
+                string estado = DataBinder.Eval(e.Item.DataItem, "estado").ToString();
+                if (!string.IsNullOrEmpty(estado) && ddlEstado.Items.FindByValue(estado) != null)
+                {
+                    ddlEstado.SelectedValue = estado;
+                }
+
                 Button btnGuardar = (Button)e.Item.FindControl("btnGuardar");
                 string estadoTicketParaBoton = DataBinder.Eval(e.Item.DataItem, "estado").ToString();
-                if (btnGuardar != null && estadoTicketParaBoton != "Abierto")
+                if (btnGuardar != null)
                 {
-                    btnGuardar.Enabled = false;
+                    btnGuardar.Enabled = estadoTicketParaBoton.Trim().Equals("Abierto", StringComparison.OrdinalIgnoreCase);
                 }
             }
         }
@@ -85,18 +86,14 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
         {
             using (SqlConnection conn = new SqlConnection(ConexionBD.sConexion))
             {
-                // Se modifica la consulta para obtener el idUsuario a partir del idPerfil
                 string query = @"
-                    SELECT up.idUsuario, t.descripcion 
-                    FROM V_Tecnicos t
-                    INNER JOIN UsuariosPorPerfil up ON t.idPerfil = up.idPerfil";
+            SELECT up.idUsuario, t.descripcion 
+            FROM V_Tecnicos t
+            INNER JOIN UsuariosPorPerfil up ON t.idPerfil = up.idPerfil";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-
-                // Mensaje de depuración
-                Console.WriteLine("Número de técnicos recuperados: " + dt.Rows.Count);
 
                 return dt;
             }
@@ -167,12 +164,13 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
                         Descripcion = descripcion,
                         Prioridad = prioridad,
                         Clasificacion = clasificacion,
-                        Estado = estado
+                        Estado = "Asignado"
                     };
                     try
                     {
-                        string nombreRemitente = "Sistema de Gestión de Tickets"; // Añadir el nombre del remitente
-                        EmailHelper.EnviarNotificacion(emailTecnico, asunto, mensaje, nombreRemitente);
+                        // Se obtiene el rol del usuario desde la sesión
+                        string rol = Session["Perfil"] != null ? Session["Perfil"].ToString() : "Administrador";
+                        EmailHelper.EnviarNotificacion(emailTecnico, asunto, mensaje, rol);
                     }
                     catch (Exception ex)
                     {
@@ -228,7 +226,34 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
                 }
             }
         }
+
+        protected void ddlTecnico_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            DropDownList ddlTecnicos = (DropDownList)sender;
+            RepeaterItem item = (RepeaterItem)ddlTecnicos.NamingContainer;
+
+            // Obtener el ID del ticket
+            HiddenField hfTicketId = (HiddenField)item.FindControl("hfTicketId");
+            int idTicket = Convert.ToInt32(hfTicketId.Value);
+
+            // Obtener el ID del técnico seleccionado
+            int idUsuario = Convert.ToInt32(ddlTecnicos.SelectedValue);
+
+            // Actualizar el técnico asignado en la base de datos
+            using (SqlConnection conn = new SqlConnection(ConexionBD.sConexion))
+            {
+                SqlCommand cmd = new SqlCommand("UPDATE Tickets SET tecnicoAsignado = @tecnicoAsignado WHERE idTicket = @idTicket", conn);
+                cmd.Parameters.AddWithValue("@tecnicoAsignado", idUsuario);
+                cmd.Parameters.AddWithValue("@idTicket", idTicket);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+
+        }
     }
 }
+
+
 
 

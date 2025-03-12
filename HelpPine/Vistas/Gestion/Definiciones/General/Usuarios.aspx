@@ -189,6 +189,7 @@
 
 <asp:Content ID="Content3" ContentPlaceHolderID="JS" runat="server">
     <script src="/Scripts/Global/alerts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </asp:Content>
 
 <asp:Content ID="Content4" ContentPlaceHolderID="JS2" runat="server">
@@ -205,7 +206,6 @@
                 drawCallback: function (settings) {
                     feather.replace();
                 },
-                // Asegúrate de definir las columnas correctamente
                 columns: [
                     { data: 'idUsuario' },
                     { data: 'Nombre' },
@@ -226,5 +226,53 @@
             if (ModalActivo != '')
                 $("#btn" + ModalActivo).click();
         });
+
+        function mostrarAlertaGuardado() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Usuario guardado',
+                text: 'El usuario ha sido guardado exitosamente.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function mostrarAlertaEditado() {
+            Swal.fire({
+                icon: 'success',
+                title: 'Usuario actualizado',
+                text: 'El usuario ha sido actualizado exitosamente.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function mostrarAlertaError(mensaje) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: mensaje,
+                timer: 2000,
+                showConfirmButton: false
+            });
+        }
+
+        function validarFormulario() {
+            let nombre = $('#<%= txtNombre.ClientID %>').val().trim();
+            let apellido = $('#<%= txtApellido.ClientID %>').val().trim();
+            let email = $('#<%= txtEmail.ClientID %>').val().trim();
+            let contrasena = $('#<%= txtPass.ClientID %>').val().trim();
+            let perfil = $('#<%= ddlPerfil.ClientID %>').val();
+            let departamento = $('#<%= ddlDepartamento.ClientID %>').val();
+            let estado = $('#<%= ddlEstado.ClientID %>').val();
+            let isEditMode = $('#<%= hfIsEditMode.ClientID %>').val() === 'true';
+
+            if (nombre === "" || apellido === "" || email === "" || perfil === "" || departamento === "" || estado === "") {
+                mostrarAlertaError("Todos los campos son obligatorios.");
+                return false;
+            }
+
+            return true;
+        }
     </script>
 </asp:Content>

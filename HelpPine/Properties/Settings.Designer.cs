@@ -25,10 +25,21 @@ namespace HelpPine.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.10.20.17;Initial Catalog=Prueba V1;User ID=sa;Password=qwerty123.")]
-        public string ConexionHD {
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.10.20.17;Initial Catalog=LPA_HelpDeskPrueba;User ID=sa;Password=qw" +
+            "erty123.")]
+        public string ConexionHP_Prueba {
             get {
-                return ((string)(this["ConexionHD"]));
+                return ((string)(this["ConexionHP_Prueba"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.10.20.17;Initial Catalog=LPA_HelpDeskProduccion;User ID=sa;Passwor" +
+            "d=qwerty123.")]
+        public string ConexionHD_Produccion {
+            get {
+                return ((string)(this["ConexionHD_Produccion"]));
             }
         }
     }

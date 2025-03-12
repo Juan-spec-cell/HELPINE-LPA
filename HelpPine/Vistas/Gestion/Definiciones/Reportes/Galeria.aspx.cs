@@ -96,7 +96,11 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Reportes
             DataTable dt = new DataTable();
             using (SqlConnection conn = new SqlConnection(ConexionBD.sConexion))
             {
-                string query = "SELECT * FROM vwGaleriaTickets";
+                string query = @"
+            SELECT IdTicket, Titulo, Estado, TiempoSolucion, Descripcion, 
+                   (SELECT TOP 1 Imagen FROM vwGaleriaTickets AS img WHERE img.IdTicket = t.IdTicket) AS Imagen
+            FROM vwGaleriaTickets AS t
+            GROUP BY IdTicket, Titulo, Estado, TiempoSolucion, Descripcion";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -107,7 +111,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Reportes
             }
             return dt;
         }
-
         // Evento que se dispara al hacer clic en "Ver Detalles"
         protected void RepeaterGallery_ItemCommand(object source, RepeaterCommandEventArgs e)
         {

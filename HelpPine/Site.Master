@@ -12,8 +12,8 @@
     <link href="/Content/css/app.css" rel="stylesheet" />
     <!-- Alerts -->
     <link href="/Content/css/iziToasst.min.css" rel="stylesheet" />
-    <link href="~/Content/css/Mensajeria.css" rel="stylesheet" type="text/css" />
-    <link href="/Content/css/Galeria.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/css/Mensajeria.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/css/Galeria.css" rel="stylesheet" />
     <!-- Page Style -->
     <asp:ContentPlaceHolder ID="CSS" runat="server"></asp:ContentPlaceHolder>
     <!-- Keyboard -->

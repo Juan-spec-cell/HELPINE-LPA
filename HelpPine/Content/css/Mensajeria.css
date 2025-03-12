@@ -63,7 +63,7 @@
 }
 
 .mensajes-container {
-    max-height: 350px; /* Ajusta esta altura según tus necesidades */
+    max-height: 250px; /* Ajusta esta altura según tus necesidades */
     overflow-y: auto;
     padding-right: 15px; /* Para evitar que el contenido se superponga con la barra de desplazamiento */
 }

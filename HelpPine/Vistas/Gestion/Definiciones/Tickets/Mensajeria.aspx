@@ -10,95 +10,98 @@
             </div>
         </div>
 
-        <!-- Detalles del ticket -->
-        <div class="card p-3 mt-3">
-            <div class="card-body">
-                <h5 class="card-title">Detalles del Ticket</h5>
-                <p>
-                    <strong>ID del Ticket:</strong>
-                    <asp:Label ID="lblTicketId" runat="server" />
-                </p>
-                <p>
-                    <strong>Nombre:</strong>
-                    <asp:Label ID="lblNombreCreador" runat="server" />
-                </p>
-                <p>
-                    <strong>Título:</strong>
-                    <asp:Label ID="lblTitulo" runat="server" />
-                </p>
-                <p>
-                    <strong>Estado:</strong>
-                    <asp:Label ID="lblEstado" runat="server" />
-                </p>
-                <p>
-                    <strong>Prioridad:</strong>
-                    <asp:Label ID="lblPrioridad" runat="server" />
-                </p>
-                <p>
-                    <strong>Descripcion:</strong>
-                    <asp:Label ID="lblDescripcion" runat="server" />
-                </p>
+        <div class="row d-flex align-items-stretch">
+            <!-- Detalles del ticket -->
+            <div class="col-md-4 d-flex">
+                <div class="card p-3 mt-3 flex-fill card-detalles-ticket">
+                    <div class="card-body">
+                        <h5 class="card-title">Detalles del Ticket</h5>
+                        <p>
+                            <strong>ID del Ticket:</strong>
+                            <asp:Label ID="lblTicketId" runat="server" />
+                        </p>
+                        <p>
+                            <strong>Nombre:</strong>
+                            <asp:Label ID="lblNombreCreador" runat="server" />
+                        </p>
+                        <p>
+                            <strong>Título:</strong>
+                            <asp:Label ID="lblTitulo" runat="server" />
+                        </p>
+                        <p>
+                            <strong>Estado:</strong>
+                            <asp:Label ID="lblEstado" runat="server" />
+                        </p>
+                        <p>
+                            <strong>Prioridad:</strong>
+                            <asp:Label ID="lblPrioridad" runat="server" />
+                        </p>
+                        <p>
+                            <strong>Descripcion:</strong>
+                            <asp:Label ID="lblDescripcion" runat="server" />
+                        </p>
 
-                <h5 class="card-title">Archivos Adjuntos</h5>
-                <asp:Label ID="lblMensajeArchivos" runat="server" Visible="false" ForeColor="Red"></asp:Label>
-                <asp:Repeater ID="rptArchivos" runat="server">
-                    <ItemTemplate>
-                        <a href='<%# Eval("RutaArchivo") %>' target="_blank"><%# Eval("NombreArchivo") %></a><br />
-                    </ItemTemplate>
-                </asp:Repeater>
-
-
+                        <h5 class="card-title">Archivos Adjuntos</h5>
+                        <asp:Label ID="lblMensajeArchivos" runat="server" Visible="false" ForeColor="Red"></asp:Label>
+                        <asp:Repeater ID="rptArchivos" runat="server">
+                            <ItemTemplate>
+                                <a href='<%# Eval("RutaArchivo") %>' target="_blank"><%# Eval("NombreArchivo") %></a><br />
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
+                </div>
             </div>
-        </div>
 
+            <!-- Mensajes y área de envío -->
+            <div class="col-md-8 d-flex">
+                <div class="card p-3 mt-3 flex-fill">
+                    <div class="card-body">
+                        <h5 class="card-title">Mensajes</h5>
+                        <asp:UpdatePanel ID="UpdatePanelMensajes" runat="server" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <asp:Timer ID="TimerMensajes" runat="server" Interval="5000" OnTick="TimerMensajes_Tick" />
+                                <!-- Se agrega id para el control del scroll -->
+                                <div id="mensajesContainer" class="mensajes-container">
+                                    <asp:Repeater ID="rptMensajes" runat="server">
+                                        <ItemTemplate>
+                                            <div class='<%# Eval("ClaseMensaje") %>'>
+                                                <div class="mensaje">
+                                                    <strong><%# Eval("NombreRemitente") %> (<%# Eval("RolRemitente") %>):</strong>
+                                                    <%# Eval("Mensaje") %>
+                                                    <em>(<%# Eval("FechaEnvio") %>)</em>
+                                                </div>
+                                            </div>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </div>
+                                <!-- Se agregan los eventos onfocus y onblur para controlar el Timer -->
+                                <asp:TextBox ID="txtMensaje" runat="server" TextMode="MultiLine" Rows="4" Columns="50"
+                                    CssClass="form-control mt-3" onfocus="disableTimer()" onblur="enableTimer()"></asp:TextBox>
+                                <asp:Button ID="btnEnviar" runat="server" Text="Enviar" CssClass="btn btn-primary mt-3" OnClick="btnEnviar_Click" OnClientClick="return validarMensaje();" />
+                                <asp:Button ID="btnVolverLista" runat="server" Text="Volver a la lista" CssClass="btn btn-secondary mt-3" OnClick="btnVolverLista_Click" />
 
-        <!-- Mensajes y área de envío -->
-        <div class="card p-3 mt-3">
-            <div class="card-body">
-                <h5 class="card-title">Mensajes</h5>
-                <asp:UpdatePanel ID="UpdatePanelMensajes" runat="server" UpdateMode="Conditional">
-                    <ContentTemplate>
-                        <asp:Timer ID="TimerMensajes" runat="server" Interval="5000" OnTick="TimerMensajes_Tick" />
-                        <!-- Se agrega id para el control del scroll -->
-                        <div id="mensajesContainer" class="mensajes-container">
-                            <asp:Repeater ID="rptMensajes" runat="server">
-                                <ItemTemplate>
-                                    <div class='<%# Eval("ClaseMensaje") %>'>
-                                        <div class="mensaje">
-                                            <strong><%# Eval("NombreRemitente") %> (<%# Eval("RolRemitente") %>):</strong>
-                                            <%# Eval("Mensaje") %>
-                                            <em>(<%# Eval("FechaEnvio") %>)</em>
+                                <!-- Control de subida de archivos -->
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="btnEnviar" EventName="Click" />
+                                <asp:AsyncPostBackTrigger ControlID="TimerMensajes" EventName="Tick" />
+                            </Triggers>
+                        </asp:UpdatePanel>
+
+                        <asp:UpdateProgress ID="UpdateProgressMensajes" runat="server" AssociatedUpdatePanelID="UpdatePanelMensajes">
+                            <ProgressTemplate>
+                                <div class="d-flex justify-content-center align-items-center" style="min-height: 150px;">
+                                    <div class="text-center">
+                                        <img src="/Content/img/loading2.gif" alt="Cargando..." style="width: 3rem; height: 3rem;" />
+                                        <div class="mt-2">
+                                            <strong>Enviando Mensaje.</strong>
                                         </div>
                                     </div>
-                                </ItemTemplate>
-                            </asp:Repeater>
-                        </div>
-                        <!-- Se agregan los eventos onfocus y onblur para controlar el Timer -->
-                        <asp:TextBox ID="txtMensaje" runat="server" TextMode="MultiLine" Rows="4" Columns="50"
-                            CssClass="form-control mt-3" onfocus="disableTimer()" onblur="enableTimer()"></asp:TextBox>
-                        <asp:Button ID="btnEnviar" runat="server" Text="Enviar" CssClass="btn btn-primary mt-3" OnClick="btnEnviar_Click" OnClientClick="return validarMensaje();" />
-                        <asp:Button ID="btnVolverLista" runat="server" Text="Volver a la lista" CssClass="btn btn-secondary mt-3" OnClick="btnVolverLista_Click" />
-
-                        <!-- Control de subida de archivos -->
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="btnEnviar" EventName="Click" />
-                        <asp:AsyncPostBackTrigger ControlID="TimerMensajes" EventName="Tick" />
-                    </Triggers>
-                </asp:UpdatePanel>
-
-                <asp:UpdateProgress ID="UpdateProgressMensajes" runat="server" AssociatedUpdatePanelID="UpdatePanelMensajes">
-                    <ProgressTemplate>
-                        <div class="d-flex justify-content-center align-items-center" style="min-height: 150px;">
-                            <div class="text-center">
-                                <img src="/Content/img/loading2.gif" alt="Cargando..." style="width: 3rem; height: 3rem;" />
-                                <div class="mt-2">
-                                    <strong>Enviando Mensaje.</strong>
                                 </div>
-                            </div>
-                        </div>
-                    </ProgressTemplate>
-                </asp:UpdateProgress>
+                            </ProgressTemplate>
+                        </asp:UpdateProgress>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -185,3 +188,6 @@
         }
     </script>
 </asp:Content>
+
+
+

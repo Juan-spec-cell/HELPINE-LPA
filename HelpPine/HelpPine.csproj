@@ -189,13 +189,16 @@
     <Content Include="Content\css\app.css" />
     <Content Include="Content\css\bootstrap-select.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\custom.css" />
     <Content Include="Content\css\dataTables.bootstrap5.min.css" />
+    <Content Include="Content\css\fileupload.css" />
     <Content Include="Content\css\Galeria.css" />
     <Content Include="Content\css\iziToasst.min.css" />
     <Content Include="Content\css\jquery-ui.min.css" />
     <Content Include="Content\css\keyboard.css" />
     <Content Include="Content\css\Mensajeria.css" />
     <Content Include="Content\css\Site.css" />
+    <Content Include="Content\css\TicketsAbiertosGaleria.css" />
     <Content Include="Content\css\Tickets.css" />
     <Content Include="Content\css\tuning.css" />
     <Content Include="Content\fonts\fa-brands-400.svg" />

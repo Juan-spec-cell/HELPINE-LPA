@@ -37,7 +37,7 @@
                             <Columns>
                                 <asp:BoundField DataField="idPerfil" HeaderText="#" ItemStyle-Width="5%" />
                                 <asp:BoundField DataField="Descripcion" HeaderText="Descripción" />
-                                <asp:BoundField DataField="UsuarioCreador" HeaderText="Creado Por" />
+                                <asp:BoundField DataField="creadoPor" HeaderText="Creado Por" />
                                 <asp:TemplateField HeaderText="Acciones" ItemStyle-Width="10%">
                                     <ItemTemplate>
                                         <asp:LinkButton ID="btnDetalle" CommandArgument='<%# Eval("idPerfil") %>' 

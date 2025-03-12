@@ -47,7 +47,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                 else if (eventTarget == "Detalles")
                     AddDepto(eventArgument);
             }
-
         }
 
         private void AddDepto(string idDepartamento)
@@ -62,7 +61,8 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
             DataTable ds = (DataTable)ViewState["Table"];
 
             // Verificar si el nombre del departamento ya existe
-            DataSet dsCheck = util.ObtenerDS("SELECT COUNT(*) FROM V_GetDeptos WHERE descripcion = '" + txtDescripcion.Text.Trim() + "' AND idDepartamento != " + idDepartamento, "T");
+            DataSet dsCheck = util.ObtenerDS("SELECT COUNT(*) FROM V_GetDeptos WHERE descripcion = '"
+                + txtDescripcion.Text.Trim() + "' AND idDepartamento != " + idDepartamento, "T");
             if (dsCheck.Tables[0].Rows[0][0].ToString() != "0")
             {
                 messages.Value = "Error|Red|El nombre del departamento ya existe.";
@@ -77,20 +77,17 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                     CommandText = "usp_UpdateDeptos"
                 };
 
-                // Agrega los parámetros necesarios
                 comand.Parameters.Add(new SqlParameter("@idDepartamento", int.Parse(idDepartamento)));
                 comand.Parameters.Add(new SqlParameter("@descripcion", txtDescripcion.Text.Trim()));
                 comand.Parameters.Add(new SqlParameter("@activo", chkActivo.Checked));
                 comand.Parameters.Add(new SqlParameter("@usuario", "Administrador"));
 
-                // Mensajes de depuración
                 System.Diagnostics.Debug.WriteLine("Descripción: " + txtDescripcion.Text.Trim());
                 System.Diagnostics.Debug.WriteLine("Activo: " + chkActivo.Checked);
 
                 string mensaje = util.EjecutarProcedimiento(comand);
                 if (mensaje == "1")
                 {
-                    // Actualización exitosa, refresca la página o la grilla
                     Response.Redirect(Page.Request.Url.ToString(), false);
                     Context.ApplicationInstance.CompleteRequest();
                 }
@@ -103,7 +100,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
             }
             catch (SqlException ex)
             {
-                messages.Value = "Fatal error|red| Ha ocurrido un error al actualizar el departamento.|" + ex.Message;
+                messages.Value = "Fatal error|Red|Ha ocurrido un error al actualizar el departamento.|" + ex.Message;
                 ModalActivo.Value = "Editar";
                 modalTitle.InnerText = "Editar Departamento";
             }
@@ -158,7 +155,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                         CommandText = "usp_ActivateDepto"
                     };
 
-                    // Agrega los parámetros necesarios
                     comand.Parameters.Add(new SqlParameter("@idDepartamento", int.Parse(e.CommandArgument.ToString())));
                     comand.Parameters.Add(new SqlParameter("@activo", true));
                     comand.Parameters.Add(new SqlParameter("@usuario", "Administrador"));
@@ -166,7 +162,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                     string mensaje = util.EjecutarProcedimiento(comand);
                     if (mensaje == "1")
                     {
-                        // Activación exitosa, refresca la grilla
                         DataSet ds = util.ObtenerDS("SELECT * FROM V_GetDeptos", "T");
                         ViewState["Table"] = ds.Tables[0];
                         Refresh(ds.Tables[0], ref gvDepartamentos);
@@ -178,7 +173,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                 }
                 catch (SqlException ex)
                 {
-                    messages.Value = "Fatal error|red| Ha ocurrido un error al activar el departamento.|" + ex.Message;
+                    messages.Value = "Fatal error|Red|Ha ocurrido un error al activar el departamento.|" + ex.Message;
                 }
             }
 
@@ -187,18 +182,21 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
 
         protected void BtnGuardar_Click(object sender, EventArgs e)
         {
-            // Validación para no guardar datos en blanco
             if (string.IsNullOrWhiteSpace(txtGuardarDescripcion.Text))
             {
+                // Establecemos el mensaje y registramos el script inmediatamente
                 messages.Value = "Error|Red|La descripción es obligatoria.";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowAlert",
+                    "Swal.fire({ icon: 'error', title: 'Error', text: 'La descripción es obligatoria.', timer: 2000, showConfirmButton: false });", true);
                 return;
             }
 
-            // Verificar si el nombre del departamento ya existe
             DataSet dsCheck = util.ObtenerDS("SELECT COUNT(*) FROM V_GetDeptos WHERE descripcion = '" + txtGuardarDescripcion.Text.Trim() + "'", "T");
             if (dsCheck.Tables[0].Rows[0][0].ToString() != "0")
             {
                 messages.Value = "Error|Red|El nombre del departamento ya existe.";
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowAlert",
+                    "Swal.fire({ icon: 'error', title: 'Error', text: 'El nombre del departamento ya existe.', timer: 2000, showConfirmButton: false });", true);
                 return;
             }
 
@@ -210,7 +208,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                     CommandText = "usp_InsertDepto"
                 };
 
-                // Agrega los parámetros necesarios
                 comand.Parameters.Add(new SqlParameter("@descripcion", txtGuardarDescripcion.Text.Trim()));
                 comand.Parameters.Add(new SqlParameter("@activo", chkGuardarActivo.Checked));
                 comand.Parameters.Add(new SqlParameter("@usuario", "Administrador"));
@@ -218,18 +215,21 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                 string mensaje = util.EjecutarProcedimiento(comand);
                 if (mensaje == "1")
                 {
-                    // Inserción exitosa, refresca la página o la grilla
                     Response.Redirect(Page.Request.Url.ToString(), false);
                     Context.ApplicationInstance.CompleteRequest();
                 }
                 else
                 {
                     messages.Value = "Error|Red|Ha ocurrido un error al guardar. " + mensaje;
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowAlert",
+                        $"Swal.fire({{ icon: 'error', title: 'Error', text: 'Ha ocurrido un error al guardar. {mensaje}', timer: 2000, showConfirmButton: false }});", true);
                 }
             }
             catch (SqlException ex)
             {
-                messages.Value = "Fatal error|red| Ha ocurrido un error al guardar el departamento.|" + ex.Message;
+                messages.Value = "Fatal error|Red|Ha ocurrido un error al guardar el departamento.|" + ex.Message;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowAlert",
+                    $"Swal.fire({{ icon: 'error', title: 'Fatal error', text: 'Ha ocurrido un error al guardar el departamento. {ex.Message}', timer: 2000, showConfirmButton: false }});", true);
             }
 
             DataSet ds = util.ObtenerDS("SELECT * FROM V_GetDeptos", "T");
@@ -243,13 +243,12 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
             {
                 grid.DataSource = dt;
                 grid.DataBind();
-                if (dt != null)
-                    if (dt.Rows.Count > 0)
-                        grid.HeaderRow.TableSection = TableRowSection.TableHeader;
+                if (dt != null && dt.Rows.Count > 0)
+                    grid.HeaderRow.TableSection = TableRowSection.TableHeader;
             }
             catch (Exception ex)
             {
-                messages.Value = "Error|red|" + ex.Message;
+                messages.Value = "Error|Red|" + ex.Message;
             }
         }
 
@@ -269,6 +268,27 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
             }
         }
 
-
+        // Este evento se ejecuta justo antes de renderizar la página y permite inyectar el script del Sweet Alert.
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(messages.Value))
+            {
+                // Suponiendo el formato "Error|Red|Mensaje" o "Exito|Green|Mensaje"
+                string[] parts = messages.Value.Split('|');
+                if (parts.Length >= 3)
+                {
+                    string title = parts[0];
+                    string text = parts[2];
+                    string icon = "error";
+                    if (title.ToLower().Contains("exito"))
+                        icon = "success";
+                    if (title.ToLower().Contains("fatal"))
+                        icon = "error";
+                    string script = $"Swal.fire({{ icon: '{icon}', title: '{title}', text: '{text}', timer: 2000, showConfirmButton: false }});";
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "ShowAlert", script, true);
+                }
+            }
+        }
     }
 }
+

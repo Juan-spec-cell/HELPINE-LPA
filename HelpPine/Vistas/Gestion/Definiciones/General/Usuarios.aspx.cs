@@ -53,8 +53,8 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
 
         private void CargarDatos()
         {
-                DataSet ds = util.ObtenerDS("SELECT idUsuario, Nombre, Login, Email, Perfil, Departamento, Activo FROM V_GetUsuarios", "T");
-                ViewState["Table"] = ds.Tables[0];
+            DataSet ds = util.ObtenerDS("SELECT idUsuario, Nombre, Login, Email, Perfil, Departamento, Activo FROM V_GetUsuarios", "T");
+            ViewState["Table"] = ds.Tables[0];
             if (ds.Tables[0].Rows.Count > 0)
             {
                 Refresh(ds.Tables[0], ref gvUsuarios);
@@ -73,7 +73,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
         private void CargarRoles()
         {
             Debug.WriteLine("Cargando roles...");
-            DataSet ds = util.ObtenerDS("SELECT idPerfil, descripcion FROM V_Perfiles WHERE activo = 1", "T");
+            DataSet ds = util.ObtenerDS("SELECT idPerfil, descripcion FROM V_Perfiles2 WHERE activo = 1", "T");
             util.BindDdlUniversal(ref ddlPerfil, ds.Tables[0], "idPerfil", "descripcion");
             Debug.WriteLine("Roles cargados.");
         }
@@ -230,7 +230,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                 {
                     try
                     {
-                        
+
 
                         MostrarDetallesUsuario(e.CommandArgument.ToString());
 
@@ -318,7 +318,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                         Debug.WriteLine($"Procedimiento ejecutado. Filas afectadas: {filasAfectadas}");
                     }
                 }
-
+                ScriptManager.RegisterStartupScript(this, GetType(), "mostrarAlertaGuardado", "mostrarAlertaGuardado();", true);
                 Debug.WriteLine("Usuario guardado correctamente.");
                 CargarDatos();
                 LimpiarFormulario();
@@ -334,6 +334,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
             }
             catch (Exception ex)
             {
+                ScriptManager.RegisterStartupScript(this, GetType(), "mostrarAlertaError", $"mostrarAlertaError('{ex.Message}');", true);
                 Debug.WriteLine($"Error general: {ex.Message}");
             }
         }
@@ -391,7 +392,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                         cmd.Parameters.AddWithValue("@apellido", apellido);
                         cmd.Parameters.AddWithValue("@email", email);
 
-                        // Si el campo de contraseña está vacío, se envía DBNull.Value; de lo contrario se envía el valor encriptado.
                         if (string.IsNullOrWhiteSpace(txtPass.Text))
                         {
                             cmd.Parameters.AddWithValue("@contrasena", DBNull.Value);
@@ -413,6 +413,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                 }
 
                 ViewState["ModoEdicion"] = false;
+                ScriptManager.RegisterStartupScript(this, GetType(), "mostrarAlertaEditado", "mostrarAlertaEditado();", true);
                 CargarDatos();
                 LimpiarFormulario();
 
@@ -426,12 +427,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
                 Debug.WriteLine($"Error al actualizar usuario: {ex.Message}");
             }
         }
-
-
-
-
-
-
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("btnCancelar_Click ejecutado.");

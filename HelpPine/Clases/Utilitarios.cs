@@ -115,8 +115,7 @@ namespace HelpPine.Clases
             con = cnx.GetConnection();
             cmd.Connection = con;
             con.Open();
-            object result = cmd.ExecuteScalar();
-            string mensaje = result != null ? result.ToString() : "No result returned";
+            string mensaje = cmd.ExecuteScalar().ToString();
             con.Close();
             return mensaje;
         }

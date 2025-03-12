@@ -159,15 +159,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbDescripcion;
 
         /// <summary>
-        /// Control lbCreado.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lbCreado;
-
-        /// <summary>
         /// Control lbFechaC.
         /// </summary>
         /// <remarks>

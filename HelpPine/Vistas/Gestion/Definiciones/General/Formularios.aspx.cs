@@ -163,7 +163,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.General
             {
                 lbDescripcion.InnerText = dr["descripcion"].ToString();
                 lbActivo.InnerText = bool.Parse(dr["activo"].ToString()) ? "Sí" : "No";
-                lbCreado.InnerText = dr["CreadoPor"].ToString();
                 lbFechaC.InnerText = dr["FechaCreacion"].ToString();
             }
         }

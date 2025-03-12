@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Net;
 using System.Net.Mail;
+using System.Web;
 
 public class EmailHelper
 {
@@ -11,6 +12,30 @@ public class EmailHelper
         string usuarioCorreo = ConfigurationManager.AppSettings["USUARIO_CORREO"];
         string contrasenaCorreo = ConfigurationManager.AppSettings["CONTRASENA_CORREO"];
         string servicioCorreo = ConfigurationManager.AppSettings["SERVICIO_CORREO"];
+
+        // Determinar el mensaje basado en el estado del ticket
+        string rol = HttpContext.Current.Session["Perfil"] != null ? HttpContext.Current.Session["Perfil"].ToString() : "Usuario";
+        string mensajeEstado;
+        string tituloCorreo;
+        switch (mensaje.Estado.ToLower())
+        {
+            case "creado":
+                mensajeEstado = $"El {rol} ha creado el ticket #{mensaje.TicketID}:";
+                tituloCorreo = "¡Nuevo Ticket Creado!";
+                break;
+            case "asignado":
+                mensajeEstado = $"El {rol} ha asignado el ticket #{mensaje.TicketID}:";
+                tituloCorreo = "¡Ticket Asignado!";
+                break;
+            case "cancelado":
+                mensajeEstado = $"El {rol} ha cancelado el ticket #{mensaje.TicketID}:";
+                tituloCorreo = "¡Ticket Cancelado!";
+                break;
+            default:
+                mensajeEstado = $"El {rol} ha respondido en el ticket #{mensaje.TicketID}:";
+                tituloCorreo = "¡Actualización de Ticket!";
+                break;
+        }
 
         // Crear el cuerpo del correo con HTML y CSS
         string cuerpoCorreo = $@"
@@ -88,8 +113,8 @@ public class EmailHelper
                 <h2>Notificación de Ticket</h2>
             </div>
             <div class='email-body'>
-                <h1>¡Nuevo Ticket Creado!</h1>
-                <p>El usuario {nombreRemitente} ha respondido en el ticket #{mensaje.TicketID}:</p>
+                <h1>{tituloCorreo}</h1>
+                <p>{mensajeEstado}</p>
                 <table>
                     <tr>
                         <th>Ticket ID</th>
@@ -150,6 +175,7 @@ public class EmailHelper
         }
     }
 }
+
 
 public class Ticket
 {

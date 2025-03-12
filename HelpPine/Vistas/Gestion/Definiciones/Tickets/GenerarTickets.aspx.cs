@@ -10,7 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
-using Google.Protobuf.WellKnownTypes;
+
 
 namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
 {
@@ -45,14 +45,6 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
 
         protected void btnGenerarTicket_Click(object sender, EventArgs e)
         {
-            // Validar sesión del usuario
-            string idUsuario = Session["IdUser"] != null ? Session["IdUser"].ToString() : "";
-            if (string.IsNullOrEmpty(idUsuario))
-            {
-                Response.Redirect("~/Login.aspx");
-                return;
-            }
-
             // Recoger datos del formulario
             string titulo = txtTitulo.Text.Trim();
             string descripcion = txtDescripcion.Text.Trim();
@@ -60,7 +52,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
             string estado = DropDownList1.SelectedValue;
             string clasificacion = ddlClasificacion.SelectedValue;
             string comentario = txtComentario.Text.Trim();
-            string creadoPor = idUsuario;
+            string creadoPor = Session["IdUser"].ToString();
             int ticketID = 0;
 
             using (SqlConnection conn = new SqlConnection(ConexionBD.sConexion))
@@ -77,16 +69,21 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
                     cmd.Parameters.AddWithValue("@Estado", estado);
                     cmd.Parameters.AddWithValue("@CreadoPor", creadoPor);
                     cmd.Parameters.AddWithValue("@Comentario", comentario);
-                    cmd.Parameters.AddWithValue("@IdUsuario", idUsuario);
+                    cmd.Parameters.AddWithValue("@IdUsuario", creadoPor);
 
                     try
                     {
                         object result = cmd.ExecuteScalar();
                         ticketID = result != null ? Convert.ToInt32(result) : 0;
+                        if (ticketID == 0)
+                        {
+                            throw new Exception("El procedimiento almacenado no devolvió un ID de ticket válido.");
+                        }
                     }
                     catch (Exception ex)
                     {
                         Debug.WriteLine("Error al insertar el ticket: " + ex.Message);
+                        ScriptManager.RegisterStartupScript(this, GetType(), "mostrarAlertaError", $"mostrarAlertaError('Error al insertar el ticket: {ex.Message}');", true);
                         return;
                     }
                 }
@@ -142,16 +139,19 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
                                 cmdArchivo.Parameters.AddWithValue("@RutaArchivo", rutaArchivo);
                                 cmdArchivo.ExecuteNonQuery();
                             }
-                            LimpiarFormulario();
                         }
                         catch (Exception ex)
                         {
                             Debug.WriteLine("Error al subir o procesar archivo: " + ex.Message);
-                            // Aquí podrías acumular errores o notificar al usuario según sea necesario.
+                            ScriptManager.RegisterStartupScript(this, GetType(), "mostrarAlertaError", $"mostrarAlertaError('Error al subir o procesar archivo: {ex.Message}');", true);
+                            return;
                         }
                     }
                 }
             }
+
+            string rol = Session["Perfil"] != null ? Session["Perfil"].ToString() : "Usuario";
+
 
             // Enviar notificación al administrador
             string adminCorreo = ConfigurationManager.AppSettings["ADMIN_CORREO"];
@@ -163,12 +163,13 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
                 Descripcion = descripcion,
                 Prioridad = prioridad,
                 Clasificacion = clasificacion,
-                Estado = estado,
+                Estado = "creado",
                 Comentario = comentario
             };
+
             try
             {
-                EmailHelper.EnviarNotificacion(adminCorreo, asunto, mensaje, "Administrador");
+                EmailHelper.EnviarNotificacion(adminCorreo, asunto, mensaje, rol);
             }
             catch (Exception ex)
             {
@@ -180,18 +181,19 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
             string asuntoUsuario = "Su ticket ha sido creado";
             try
             {
-                EmailHelper.EnviarNotificacion(usuarioCorreo, asuntoUsuario, mensaje, "Sistema");
+                EmailHelper.EnviarNotificacion(usuarioCorreo, asuntoUsuario, mensaje, rol);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("Error al enviar la notificación al usuario: " + ex.Message);
             }
 
+            // Mostrar alerta de éxito después de crear el ticket
+            ScriptManager.RegisterStartupScript(this, GetType(), "mostrarAlertaExito", "mostrarAlertaExito('El ticket ha sido creado correctamente.');", true);
 
             // Limpiar el formulario después de guardar
             LimpiarFormulario();
         }
-
         public string EstablecerNombreDocumento(string originalFileName)
         {
             return originalFileName;
@@ -202,6 +204,7 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
             Debug.WriteLine("Limpiando formulario...");
             txtTitulo.Text = "";
             txtDescripcion.Text = "";
+            txtComentario.Text = "";
         }
 
         protected void Control_Load(object sender, EventArgs e)
@@ -220,30 +223,3 @@ namespace HelpPine.Vistas.Gestion.Definiciones.Tickets
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

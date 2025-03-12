@@ -1,16 +1,17 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="HelpPine.Login" %>
 
 <!DOCTYPE html>
-<html lang="en"<head runat="server">
+<html lang="en">
+<head runat="server">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="~/Content/img/Logo.jpg" />
     <link href="~/Content/css/app.css" rel="stylesheet" />
     <link href="/Content/css/iziToasst.min.css" rel="stylesheet" />
+    <link href="/Content/css/custom.css" rel="stylesheet" /> <!-- Enlace al nuevo archivo CSS -->
     <title>Inicio de Sesión | LPA DelpDesk</title>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-</head>  </style>
 </head>
 
 <body class="bg-success" style="background-color: #729d86 !important;">
@@ -39,7 +40,8 @@
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server"
                                                 ErrorMessage="Escriba el usuario para continuar..." ControlToValidate="txtUser"
                                                 CssClass="text-danger"></asp:RequiredFieldValidator>
-                                          <div class="w-100 mb-3">
+                                        </div>
+                                        <div class="w-100 mb-3">
                                             <asp:TextBox CssClass="form-control form-control-lg text-white border-white"
                                                 ID="txtPass" runat="server" placeholder="Contraseña" TextMode="Password"
                                                 Style="background-color: var(--bs-success);"></asp:TextBox>
@@ -54,10 +56,9 @@
                                                 OnClientClick="return validarLogin();"
                                                 Style="background-color: var(--bs-success);"></asp:Button>
                                         </div>
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
-                                                ErrorMessage="Escriba la contraseña para continuar..." ControlToValidate="txtPass"
-                                                CssClass="text-danger"></asp:RequiredFieldValidator>
-                                        </div>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server"
+                                            ErrorMessage="Escriba la contraseña para continuar..." ControlToValidate="txtPass"
+                                            CssClass="text-danger"></asp:RequiredFieldValidator>
                                     </form>
 
                                 </div>
@@ -106,3 +107,4 @@
     </script>
 </body>
 </html>
+

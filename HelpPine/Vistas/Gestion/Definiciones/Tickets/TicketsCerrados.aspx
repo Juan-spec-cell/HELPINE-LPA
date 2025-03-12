@@ -14,7 +14,12 @@
             </div>
         </div>
 
-        <asp:Label ID="lblNoTickets" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
+        <div class="col">
+            <h4 class="text-white">
+                <asp:Label ID="lblNoTickets" runat="server" Style="color: white;" Visible="false"></asp:Label>
+            </h4>
+        </div>
+
         <div class="card p-3 mt-3">
             <div class="card-body">
                 <div class="table-responsive">

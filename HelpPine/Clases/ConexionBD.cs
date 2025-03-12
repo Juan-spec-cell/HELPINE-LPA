@@ -9,17 +9,14 @@ namespace HelpPine.Clases
 {
     public class ConexionBD
     {
-
-        public static string sConexion = Properties.Settings.Default.ConexionHD.Trim(); 
+        public static string sConexion = Properties.Settings.Default.ConexionHP_Prueba.Trim();
+        // public static string sConexion = Properties.Settings.Default.ConexionHD_Produccion.Trim(); 
 
         public SqlConnection GetConnection()
         {
-            if (string.IsNullOrEmpty(sConexion))
-            {
-                throw new Exception("Error: La cadena de conexión no está configurada correctamente.");
-            }
-            return new SqlConnection(sConexion);
+            Debug.WriteLine("Cadena de conexión utilizada: " + sConexion);
+            SqlConnection con = new SqlConnection(sConexion);
+            return con;
         }
     }
-
 }

@@ -2,8 +2,11 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="HelpPine.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ConexionHD" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Data Source=10.10.20.17;Initial Catalog=Prueba V1;User ID=sa;Password=qwerty123.</Value>
+    <Setting Name="ConexionHP_Prueba" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=10.10.20.17;Initial Catalog=LPA_HelpDeskPrueba;User ID=sa;Password=qwerty123.</Value>
+    </Setting>
+    <Setting Name="ConexionHD_Produccion" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Data Source=10.10.20.17;Initial Catalog=LPA_HelpDeskProduccion;User ID=sa;Password=qwerty123.</Value>
     </Setting>
   </Settings>
 </SettingsFile>
